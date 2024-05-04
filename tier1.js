@@ -1,24 +1,24 @@
-function(e,r){//s:#s.t1npc.loc
+function(e,r){ //t:#s.t1npc.loc0
 
-//	[["EZ_21","EZ_35","EZ_40","c001","c002","c003","l0cket","DATA_CHECK"],["green","lime","yellow","orange","red","purple","blue","cyan"],["open","release","unlock"],[2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89,97],["6hh8xw","cmppiq","sa23uw","tvfkyq","uphlaw","vc2c7q","xwz7ja"],["pattern ","device","more","humor","angie's","mallory's","che ","will","faythe","hack","pet","safety","service","fact","capture","friend","th3","provides i","gc","CAFE"],["fran_lee","robovac","sentience","sans_comedy","angels","minions","sisters","petra","fountain","helpdesk","bunnybat","get_level","weathernet","eve","resource","bo","heard","teach","outta_juice","poetry"],"match","length","call","indexOf","LOCK_ERROR","includes","c001","color_digit","c002","c002_complement","c003","c003_triad_1","c003_triad_2","EZ_21","EZ_35","digit","EZ_40","prime","ez_prime","l0cket","DATA_CHECK","split","\n","forEach","state"]	
-let[f,i,s,a,l,n,t,$,o,v,c,u,S,k,p,C,I,L,N,O,_,b,d,g,D,E,K,P,T,U,m,q]=JSON.parse(#fs.scripts.quine().split`	`[1])
-var B=f,J=i,R=s,X=a,h=l,j=n,w=t,x=r.s
-let open_cnt=e=>(e[$](/LOCK_UNLOCKED/g)||[])[o]
-for(var y={},z=x[v](y),A=z[c](u);;){if(-1==A)return[y,z]
-for(var F="",G=0;G<B[o];G++)if(z[c](B[G])>A){F=B[G]
-break}var H=open_cnt(z)
-for(G=0;;G++){let pullAns=e=>{for(var r=0;r<j[o];r++)e[S](j[r])&&(Q+=w[r])}
-if(F==k){y[k]=J[G%J[o]]
-y[p]=y[k][o]}else if(F==C){y[C]=J[G%J[o]]
-y[I]=J[(G+4)%J[o]]}else if(F==L){y[L]=J[G%J[o]]
-y[N]=J[(G+3)%J[o]]
-y[O]=J[(G+5)%J[o]]}else if(F==_)y[_]=R[G%R[o]]
-else if(F==b)-1==z[c](d)?y[b]=R[G%R[o]]:y[d]=G%10
-else if(F==g)-1==z[c](D)?y[g]=R[G%R[o]]:y[E]=X[(G+25)%X[o]]
-else if(F==K)y[K]=h[G%h[o]]
-else{if(F!=P)return{ok:!1,[q]:y,msg:z}
-y[P]=""
-var M=r.s[v](y)[T](U),Q=""
-M[m](pullAns)
-y[P]=Q}A=(z=x[v](y))[c](u)
-if(open_cnt(z)>H||-1==A)break}}}
+//	["EZ_21","EZ_35","EZ_40","c001","c002","c003","l0cket","DATA_CHECK","green","lime","yellow","orange","red","purple","blue","cyan","open","release","unlock","6hh8xw","cmppiq","sa23uw","tvfkyq","uphlaw","vc2c7q","xwz7ja","pattern ","device","more","humor","angie's","mallory's","che ","will","faythe","hack","pet","safety","service","fact","capture","friend","th3","provides i","gc","CAFE","fran_lee","robovac","sentience","sans_comedy","angels","minions","sisters","petra","fountain","helpdesk","bunnybat","get_level","weathernet","eve","resource","bo","heard","teach","outta_juice","poetry","match","length","call","indexOf","LOCK_ERROR","includes","color_digit","c002_complement","c003_triad_1","c003_triad_2","digit","prime","ez_prime","split","\n","forEach","state"]	
+let[f,i,s,l,t,a,$,n,o,v,k,u,S,c,p,C,I,L,N,O,_,b,d,g,h,z,D,E,K,P,T,U,m,q,B,J,R,X,j,w,x,y,A,F,G,H,M,Q,V,W,Y,Z,ee,re,fe,ie,se,le,te,ae,$e,ne,oe,ve,ke,ue,Se,ce,pe,Ce,Ie,Le,Ne,Oe,_e,be,de,ge,he,ze,De,Ee,Ke]=JSON.parse(#fs.scripts.quine().split`	`[1]),hack=e=>{var r=[f,i,s,l,t,a,$,n],Pe=[o,v,k,u,S,c,p,C],Te=[I,L,N],Ue=[2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89,97],me=[O,_,b,d,g,h,z],qe=[D,E,K,P,T,U,m,q,B,J,R,X,j,w,x,y,A,F,G,H],Be=[M,Q,V,W,Y,Z,ee,re,fe,ie,se,le,te,ae,$e,ne,oe,ve,ke,ue],Je=e
+let open_cnt=e=>(e[Se](/LOCK_UNLOCKED/g)||[])[ce]
+for(var Re={},Xe=Je[pe](Re),je=Xe[Ce](Ie);;){if(-1==je)return[Re,Xe]
+for(var we="",xe=0;r[ce]>xe;xe++)if(Xe[Ce](r[xe])>je){we=r[xe]
+break}var ye=open_cnt(Xe)
+for(xe=0;;xe++){let pullAns=e=>{for(var r=0;qe[ce]>r;r++)e[Le](qe[r])&&(Fe+=Be[r])}
+if(we==l){Re[l]=Pe[xe%Pe[ce]]
+Re[Ne]=Re[l][ce]}else if(we==t){Re[t]=Pe[xe%Pe[ce]]
+Re[Oe]=Pe[(xe+4)%Pe[ce]]}else if(we==a){Re[a]=Pe[xe%Pe[ce]]
+Re[_e]=Pe[(xe+3)%Pe[ce]]
+Re[be]=Pe[(xe+5)%Pe[ce]]}else if(we==f)Re[f]=Te[xe%Te[ce]]
+else if(we==i)-1==Xe[Ce](de)?Re[i]=Te[xe%Te[ce]]:Re[de]=xe%10
+else if(we==s)-1==Xe[Ce](ge)?Re[s]=Te[xe%Te[ce]]:Re[he]=Ue[(xe+25)%Ue[ce]]
+else if(we==$)Re[$]=me[xe%me[ce]]
+else{if(we!=n)return{ok:!1,[Ke]:Re,msg:Xe}
+Re[n]=""
+var Ae=e[pe](Re)[ze](De),Fe=""
+Ae[Ee](pullAns)
+Re[n]=Fe}je=(Xe=Je[pe](Re))[Ce](Ie)
+if(open_cnt(Xe)>ye||-1==je)break}}}
+for(let e=0;e<r.t[ce];e++)hack(r.t[e])}
