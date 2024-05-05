@@ -1,434 +1,97 @@
-function(context, args) //info:false,target:#s.target.loc,report:true, xfer:"monka"
-{
-    let
-        rsp, lastrsp,
-        lk,
-        ez = ["open","release","unlock"],
-        colors = "red,orange,yellow,lime,green,cyan,blue,purple".split(','),
-        n1 = "is not the",
-        l0cket = "sa23uw,tvfkyq,uphlaw,vc2c7q,xwz7ja,i874y3,72umy0,5c7e1r,hc3b69,nfijix,d4bj4k,4jitu5,6hh8xw,9p65cu,j1aa4n,eoq6de,vthf6e,cmppiq,pmvr1q,afgny5,pzqsa0,voon2h,nyi5u2,vzdt6m,54r1cg,d9j270".split(','),
-        primes = [3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89,97],
-        calls = {
-            EZ:0,
-            c00:0,
-            DATA_CHECK:0,
-            l0cket:0,
-            magnara:0,
-            sn_w_glock:0,
-            CON_SPEC:0,
-            acct_nt:0,
-            l0ckbox:0
-        },
-        rpt = {}, //rpt
-        upgrades = #hs.sys.upgrades({full:true}),
-        k3ys = [],
-        caller = context.caller,
-        lib = #fs.scripts.lib(),
-        glock = [
-            {magician:1089},
-            {secret:7},
-            {elite:1337},
-            {monolithic:2001},
-            {hunter:3006},
-            {secure:443},
-            {beast:666},
-            {meaning:42},
-            {special:38}
-        ],
-        bal = #ms.accts.balance()-7,
-        kv = {
-            EZ_21:"open",
-            EZ_35:"open",
-            digit:0,
-            EZ_40:"open",
-            ez_prime:2,
-            c001:colors[0],
-            color_digit:3,
-            c002:colors[1],
-            c002_complement:colors[5],
-            c003:colors[2],
-            c003_triad_1:colors[7],
-            c003_triad_2:colors[5],
-            DATA_CHECK:"",
-            l0cket:"cmppiq",
-            magnara:"stav",
-            sn_w_glock:0,
-            CON_SPEC:"LMN",
-            acct_nt:0
-        },
-        correctKv = [],
-        guessedKv = [],
-        txs,
-        skipRspC = false,
-        acct_nt_guesses = [0],
-        acct_nt_count = 0
+function(e,t){//info:false,target:#s.target.loc,report:true, xfer:"monka"
 
-    kv["CON_SPEC"] = {call:a=>a.s.split(a.d).length-1}//credit to dtr
-
-    args=args||{}
-    // if(args.info || !lib.is_def(args.target)) {return "Input a target with target:#s.abandoned_jrttl_info6js9kq\nxfer:\"youruserhere\" an alt user of yours to transfer your spare cash to\nreport:true (optional) to receive detailed feedback\n\nThis script works most of the time (provided you have the keys for l0ckbox) if it doesnt work, run it a few more times and make 1GC transactions inbetween runs.\nadd noxfer:true to disable money transfers to the alt user (this disables sn_w_glock unlocking) \n\n/u2 = cubit33.unlock_t2{{target:#s.{0},report:true,xfer:\"cubit32\"}}\nnounloadk3ys:true to prevent the unloading of k3ys"}
-    if (!lib.is_def(args.xfer)) return "Please pick an xfer:\"user\" to transfer excess funds to"
-    // if (/^cubit3[2-5]$/.test(args.xfer) && !/^cubit3[3-5]$/.test(caller) || args.xfer == caller)
-    // {
-    // 	return "Please select an xfer:\"user\" which you control"
-    // }
-    if (/^cubit3[2-5]$/.test(args.target.name) && !/^cubit3[2-5]$/.test(caller))
-    {
-        return "Please don't target my alts with my own script, thank you very much!"
-    }
-
-    if (typeof args.noxfer == "undefined" && bal>0)
-    {
-        #ms.accts.xfer_gc_to({to:args.xfer,amount:bal})
-    }
-    if (!args.nounloadk3ys == true)
-    {
-        for (let u of upgrades)
-        {
-            if (u.k3y)
-            {
-                k3ys.push(u)
-                if (u.loaded)
-                {
-                    #ms.sys.manage({unload:u.i})
-                }
-            }
-        }
-    }
-
-    let lastCalls = 0, totalCalls = 0
-    rspC()
-    while (tmo(4e3))
-    {
-        try {
-            if (rspI("chain your hardline") || rspI("kernel")) // this will generate an error if rsp.msg includes "hardline", so this condition wil never be met
-            {
-                return rsp
-            }
-        }
-        catch (err)
-        {
-            return {rsp,err}
-        }
-
-        totalCalls += lastCalls, lastCalls = 0
-        if (rspI("Connection terminated"))
-        {
-            rpt["success"] = true
-            break
-        } else {
-            if (skipRspC) {skipRspC=false} else {rspC()}
-        }
-
-        if (rsp.includes(`\`NLOCK_UNLOCKED\``))
-        {
-            let temp = rsp.split("\n")
-            for (let i of temp)
-            {
-                if (/LOCK_UNLOCKED/.test(i))
-                {
-                    let j = i.split(" ")[1]
-                    if (!correctKv[j])
-                    {
-                        // #D(j+" lock unlocked")
-                        correctKv[j] = true
-                    }
-                }
-            }
-        }
-
-        if (rspI(n1))
-        {
-            if (rspI("unlock command"))
-            {
-                calls.EZ++
-                for (let i in kv)
-                {
-                    if (/EZ_/.test(i) && !correctKv[i])
-                    {
-                        kv[i] = ez[(ez.indexOf(kv[i])+1)%3]
-                        // #D(`updating: ${i}:`+kv[i])
-                    }
-                }
-            }
-            else if (/\bdigit\b/.test(rsp) && !correctKv["EZ_35"])
-            {
-                calls.EZ++
-                kv.digit++
-                kv.digit%=10
-                // #D("guessing digit "+kv.digit)
-                guessedKv["EZ_35"] = true
-            }
-            else if (/\bcorrect prime\b/.test(rsp) && !correctKv["EZ_40"])
-            {
-                calls.EZ++
-                let temp = primes.shift()
-                primes.push(temp)
-                kv["ez_prime"] = temp
-                // #D("guessing prime "+kv.ez_prime)
-                guessedKv["EZ_40"] = true
-            }
-            else if (/correct color/.test(rsp))
-            {
-                calls.c00++
-                if (!correctKv["c001"])
-                {
-                    let temp = colors.indexOf(kv.c001)
-                    kv.c001 = colors[(temp+1)%8]
-                    kv.color_digit = colors[(temp+1)%8].length
-                }
-                if (!correctKv["c002"])
-                {
-                    let temp = colors.indexOf(kv.c002)
-                    kv.c002 = colors[(temp+1)%8]
-                    kv.c002_complement = colors[(temp+5)%8]
-                }
-                if (!correctKv["c003"])
-                {
-                    let temp = colors.indexOf(kv.c003)
-                    kv.c003 = colors[(temp+1)%8]
-                    kv.c003_triad_1 = colors[(temp+6)%8]
-                    kv.c003_triad_2 = colors[(temp+4)%8]
-                }
-
-            }
-            else if (/correct security k3y/.test(rsp))//l0cket
-            {
-                calls.l0cket++
-                kv["l0cket"] = l0cket.shift()
-            }
-        }
-        else if (/\+{6}/.test(rsp))//DATA_CHECK
-        {
-            let data_check = rsp.split("\n")
-            if (data_check.length != 3)
-            {
-                rpt["msg"] = "error, DATA_CHECK error, less than 3 questions"
-                break
-            }
-            let string = "";
-            for (let i of data_check)
-            {
-                string += #fs.lore.data_check({lookup:i}).answer
-            }
-            kv["DATA_CHECK"] = string
-            calls["DATA_CHECK"]++
-        }
-        else if (/balance/.test(rsp)) //sn_w_glock
-        {
-            calls["sn_w_glock"]++
-            for (let i of glock)
-            {
-                for (let j in i)
-                {
-                    if (rspI(j))
-                    {
-                        #hs.cubit32.xfer({amount:i[j]})
-                        kv["acct_nt_1"] = kv.acct_nt
-                        kv.acct_nt = 0
-                        acct_nt_guesses = [0]
-                        txs = undefined
-                    }
-                }
-            }
-        }
-        else if (/(spent|earned|What was|withdrawal|deposit)/.test(rsp)) //acct_nt
-        {
-            rpt["acct_nt_query"] = rsp
-            let skipTxsCalc = true
-            let count = 0
-            if (!txs) txs = #hs.accts.transactions({count:25}).map(e =>
-            {
-                e.i = count++
-                e["time"] = parseInt(lib.to_game_timestr(e.time).replace(".",""));
-                (e.recipient==caller)?null:e["amount"]*=-1
-                skipTxsCalc = false
-                return e
-            })
-
-            if (/withdrawal|deposit/.test(rsp)) //only one transaction
-            {
-                let ts = parseInt(/(\d+\.\d+)/.exec(rsp)[1].replace(".",""))
-
-                if (!skipTxsCalc)
-                {
-                    txs = txs.map(e=>
-                    {
-                        e.amount = Math.abs(e.amount)
-                        e.time = Math.abs(e.time-ts)-Math.floor(Math.log10(e.amount))
-                        return e
-                    }).sort((a,b)=>{return b.time-a.time})
-
-                    if (/withdrawal/.test(rsp))
-                    {
-                        txs = txs.filter(e=>
-                        {
-                            return e.recipient != caller
-                        })
-                    }
-                    else
-                    {
-                        txs = txs.filter(e=>
-                        {
-                            return e.recipient == caller
-                        })
-                    }
-                }
-
-                let tempTx = txs.shift().amount
-                if (acct_nt_guesses.indexOf(tempTx) == -1)
-                {
-                    kv["acct_nt"] = tempTx
-                    acct_nt_guesses.push(tempTx)
-                    rpt["acct_nt_guesses"] = acct_nt_guesses
-                    calls["acct_nt"]++
-                }
-                else
-                {
-                    skipRspC = true
-                }
-            }
-            else // many transactions evaluation
-            {
-                let ts = /(\d+\.\d+)\D+(\d+\.\d+)/.exec(rsp)
-                ts.shift()
-                ts = ts.map(e=>{return parseInt(e.replace(".",""))})
-
-                if (!skipTxsCalc)
-                {
-                    txs = txs.filter(e=>{
-                        return !(e.time<ts[0])&&!(e.time>ts[1])
-                    })
-                    if (!/ net /.test(rsp))
-                    {
-                        if (/with memos/.test(rsp))
-                        {
-                            txs = txs.filter(e=>{return e.memo})
-                        }
-                        else
-                        {
-                            txs = txs.filter(e=>{return !e.memo})
-                        }
-                    }
-                }
-                let numEarly = 0, numLate = 0
-
-                numEarly = Math.floor(Math.random()*txs.length)
-                numLate = Math.floor(Math.random()*(txs.length-numEarly))
-
-                let guess = txs.slice(numLate,(-numEarly)||1e2)
-                rpt["acct_nt_rangemin"] = numLate
-                rpt["acct_nt_rangemax"] = numEarly
-                // if (numEarly - numLate < 4){skipRspC = true; continue}
-
-                guess = guess.reduce((a,o)=>{return a+o.amount},0)
-                if (!/ net /.test(rsp)) guess = Math.abs(guess)
-                if (acct_nt_guesses.indexOf(guess) == -1)
-                {
-                    acct_nt_guesses.push(guess)
-                    rpt["acct_nt_guesses"] = acct_nt_guesses
-                    kv["acct_nt"] = guess
-                    calls["acct_nt"]++
-                }
-                else
-                {
-                    skipRspC = true
-                }
-                acct_nt_count++
-            }
-        }
-        else if (rspI("next three letters"))
-        {
-            let az = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split(""), // a to z
-                sq = /\w{3}(?=\n)/.exec(rsp)[0].split("").map(x=>az.indexOf(x)), // sequence
-                nr = [sq[2]-sq[1],sq[1]-sq[0]]
-            kv["CON_SPEC"] =
-                az[sq[2]+nr[1]]					+
-                az[sq[2]+nr[1]  +nr[0]] +
-                az[sq[2]+nr[1]*2+nr[0]]
-            calls["CON_SPEC"]++
-        }
-        else if (rspI("magnara"))
-        {
-            let scramble = /\b\w+$/.exec(rsp)[0]
-            let answers
-            if (calls["magnara"] == 0)
-            {
-                answers = #fs.ast.magnara_solver({scramble})
-            }
-            else
-            {
-                answers = [lib.shuffle(scramble.split("")).join("")]
-            }
-            calls["magnara"]++
-            kv["magnara"] = answers[Math.floor(Math.random()*answers.length)]
-        }
-        else if (rspI("To unlock, please load the appropriate k3y:"))
-        {
-            let reqK3y = /(......)$/.exec(rsp)[1]
-            rpt["l0ckbox"] = reqK3y
-            let error = true
-            for (let i of k3ys)
-            {
-                if (i.k3y.includes(reqK3y))
-                {
-                    error = false
-                    #ms.sys.manage({load:i.i})
-                    break
-                }
-            }
-            if (error)
-            {
-                rpt["msg"] = "error, l0ckbox requests absent key:"+reqK3y
-                break
-            }
-        }
-        else if (rspI("Connection terminated"))
-        {
-            rpt["success"] = true
-            rpt["msg"] = undefined
-            break
-        }
-        else
-        {
-            rpt["msg"] = "error, unrecognized input, "+(lastCalls+totalCalls)
-            break
-        }
-    }
-    rpt["kv"] = kv
-    rpt["rsp"] = rsp
-    rpt["lock_calls"] = calls
-    rpt["ms"] = Date.now()-_START
-    rpt["calls"] = totalCalls+lastCalls
-    rpt["timestamp"] = Date.now()
-    rpt["caller"] = caller
-    rpt["target"] = args.target.name
-    rpt["xfer"] = args.xfer
-    rpt["script"] = context.this_script
-    rpt["version"] = 3
-    // #D(rpt)
-
-    // #db.i(rpt)
-    if (args.report) {return rpt}
-    else if (!rpt.success){return rsp}
-
-
-    function rspC()
-    {
-        lastrsp = rsp
-        rsp = args.target.call(kv)
-        lastCalls++
-    }
-
-    function rspI(x)
-    {
-        return rsp.includes(x)
-    }
-
-    function tmo(x)
-    {//timeout checker
-        x?0:x=3900 //npcs stop paying out after 4s of runtime
-        return Date.now()-_START<x
-    }
-
-}
+//	[["open","release","unlock"],[3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89,97],{"EZ":0,"c00":0,"DATA_CHECK":0,"l0cket":0,"magnara":0,"sn_w_glock":0,"CON_SPEC":0,"acct_nt":0,"l0ckbox":0},{"full":true},[{"magician":1089},{"secret":7},{"elite":1337},{"monolithic":2001},{"hunter":3006},{"secure":443},{"beast":666},{"meaning":42},{"special":38}],[0],"now","includes","target","call","red,orange,yellow,lime,green,cyan,blue,purple","split","is not the","sa23uw,tvfkyq,uphlaw,vc2c7q,xwz7ja,i874y3,72umy0,5c7e1r,hc3b69,nfijix,d4bj4k,4jitu5,6hh8xw,9p65cu,j1aa4n,eoq6de,vthf6e,cmppiq,pmvr1q,afgny5,pzqsa0,voon2h,nyi5u2,vzdt6m,54r1cg,d9j270","caller","EZ_21","open","EZ_35","digit","EZ_40","ez_prime","c001","color_digit","c002","c002_complement","c003","c003_triad_1","c003_triad_2","DATA_CHECK","l0cket","cmppiq","magnara","stav","sn_w_glock","CON_SPEC","LMN","acct_nt","length","is_def","xfer","Please pick an xfer:\"user\" to transfer excess funds to","test","name","Please don't target my alts with my own script, thank you very much!","noxfer","undefined","amount","nounloadk3ys","k3y","push","loaded","unload","chain your hardline","kernel","Connection terminated","success","`NLOCK_UNLOCKED`","\n","unlock command","indexOf","shift","c00","msg","error, DATA_CHECK error, less than 3 questions","lookup","answer","acct_nt_1","acct_nt_query","count","map","time","to_game_timestr","replace","recipient",null,"exec","abs","floor","log10","sort","filter","acct_nt_guesses","memo","random","slice","acct_nt_rangemin","acct_nt_rangemax","reduce","next three letters","ABCDEFGHIJKLMNOPQRSTUVWXYZ","scramble","shuffle","join","To unlock, please load the appropriate k3y:","l0ckbox","load","error, l0ckbox requests absent key:","error, unrecognized input, ","kv","rsp","lock_calls","ms","calls","timestamp","script","this_script","version","report"]	
+let l,$,i,[r,f,s,a,b,g,c,o,n,S,w,k,d,u,I,T,C,j,p,z,P,U,B,R,_,h,y,m,D,E,Z,L,N,O,v,x,K,q,J,M,W,X,A,F,G,H,Q,V,Y,ee,te,le,$e,ie,re,fe,se,ae,be,ge,ce,oe,ne,Se,we,ke,de,ue,Ie,Te,Ce,je,pe,ze,Pe,Ue,Be,Re,_e,he,ye,me,De,Ee,Ze,Le,Ne,Oe,ve,xe,Ke,qe,Je,Me,We,Xe,Ae,Fe,Ge,He,Qe,Ve,Ye,et,tt,lt,$t,it]=JSON.parse(#ms.scripts.quine().split`	`[1]),rt=Math,ft=parseInt,rspI=e=>$[o](e),rspC=()=>{$=t[n][S](Tt)
+zt++},st=r,at=w[k](","),bt=d,gt=u[k](","),ct=f,ot=s,nt={},St=#ms.sys.upgrades(a),wt=[],kt=e[I],dt=#ms.scripts.lib(),ut=b,It=#ms.accts.balance()-7,Tt={[T]:C,[j]:C,[p]:0,[z]:C,[P]:2,[U]:at[0],[B]:3,[R]:at[1],[_]:at[5],[h]:at[2],[y]:at[7],[m]:at[5],[D]:"",[E]:Z,[L]:N,[O]:0,[v]:x,[K]:0},Ct=[],jt=!1,pt=g
+Tt[v]={[S](e){return e.s[k](e.d)[q]-1}}
+t=t||{}
+if(!dt[J](t[M]))return W
+if(/^cubit3[2-5]$/[X](t[n][A])&&!/^cubit3[2-5]$/[X](kt))return F
+typeof t[G]==H&&It>0&&#ms.accts.xfer_gc_to({to:t[M],[Q]:It})
+if(1==!t[V])for(let e of St)if(e[Y]){wt[ee](e)
+e[te]&&#ms.sys.manage({[le]:e.i})}let zt=0,Pt=0
+rspC()
+for(;4e3>Date[c]()-_ST;){try{if(rspI($e)||rspI(ie))return $}catch(e){return{rsp:$,err:e}}Pt+=zt,zt=0
+if(rspI(re)){nt[fe]=!0
+break}jt?jt=!1:rspC()
+if($[o](se)){let e=$[k](ae)
+for(let t of e)if(/LOCK_UNLOCKED/[X](t)){let e=t[k](" ")[1]
+Ct[e]||(Ct[e]=!0)}}if(rspI(bt)){if(rspI(be)){ot.EZ++
+for(let e in Tt)/EZ_/[X](e)&&!Ct[e]&&(Tt[e]=st[(st[ge](Tt[e])+1)%3])}else if(/\bdigit\b/[X]($)&&!Ct[j]){ot.EZ++
+Tt[p]++
+Tt[p]%=10}else if(/\bcorrect prime\b/[X]($)&&!Ct[z]){ot.EZ++
+let e=ct[ce]()
+ct[ee](e)
+Tt[P]=e}else if(/correct color/[X]($)){ot[oe]++
+if(!Ct[U]){let e=at[ge](Tt[U])
+Tt[U]=at[(e+1)%8]
+Tt[B]=at[(e+1)%8][q]}if(!Ct[R]){let e=at[ge](Tt[R])
+Tt[R]=at[(e+1)%8]
+Tt[_]=at[(e+5)%8]}if(!Ct[h]){let e=at[ge](Tt[h])
+Tt[h]=at[(e+1)%8]
+Tt[y]=at[(e+6)%8]
+Tt[m]=at[(e+4)%8]}}else if(/correct security k3y/[X]($)){ot[E]++
+Tt[E]=gt[ce]()}}else if(/\+{6}/[X]($)){let e=$[k](ae)
+if(3!=e[q]){nt[ne]=Se
+break}let t=""
+for(let l of e)t+=#ms.lore.data_check({[we]:l})[ke]
+Tt[D]=t
+ot[D]++}else if(/balance/[X]($)){ot[O]++
+for(let e of ut)for(let t in e)if(rspI(t)){#ms.cubit32.xfer({[Q]:e[t]})
+Tt[de]=Tt[K]
+Tt[K]=0
+pt=[0]
+i=l}}else if(/(spent|earned|What was|withdrawal|deposit)/[X]($)){nt[ue]=$
+let e=!0,t=0
+i||(i=#ms.accts.transactions({[Ie]:25})[Te](l=>{l.i=t++
+l[Ce]=ft(dt[je](l[Ce])[pe](".",""))
+l[ze]==kt||(l[Q]*=-1)
+e=!1
+return l}))
+if(/withdrawal|deposit/[X]($)){let t=ft(/(\d+\.\d+)/[Ue]($)[1][pe](".",""))
+if(!e){i=i[Te](e=>{e[Q]=rt[Be](e[Q])
+e[Ce]=rt[Be](e[Ce]-t)-rt[Re](rt[_e](e[Q]))
+return e})[he]((e,t)=>t[Ce]-e[Ce])
+i=/withdrawal/[X]($)?i[ye](e=>e[ze]!=kt):i[ye](e=>e[ze]==kt)}let l=i[ce]()[Q]
+if(-1==pt[ge](l)){Tt[K]=l
+pt[ee](l)
+nt[me]=pt
+ot[K]++}else jt=!0}else{let t=/(\d+\.\d+)\D+(\d+\.\d+)/[Ue]($)
+t[ce]()
+t=t[Te](e=>ft(e[pe](".","")))
+if(!e){i=i[ye](e=>!(e[Ce]<t[0]||e[Ce]>t[1]));/ net /[X]($)||(i=/with memos/[X]($)?i[ye](e=>e[De]):i[ye](e=>!e[De]))}let l=0,r=0
+l=rt[Re](rt[Ee]()*i[q])
+r=rt[Re](rt[Ee]()*(i[q]-l))
+let f=i[Ze](r,-l||100)
+nt[Le]=r
+nt[Ne]=l
+f=f[Oe]((e,t)=>e+t[Q],0);/ net /[X]($)||(f=rt[Be](f))
+if(-1==pt[ge](f)){pt[ee](f)
+nt[me]=pt
+Tt[K]=f
+ot[K]++}else jt=!0}}else if(rspI(ve)){let e=xe[k](""),t=/\w{3}(?=\n)/[Ue]($)[0][k]("")[Te](t=>e[ge](t)),l=[t[2]-t[1],t[1]-t[0]]
+Tt[v]=e[t[2]+l[1]]+e[t[2]+l[1]+l[0]]+e[t[2]+2*l[1]+l[0]]
+ot[v]++}else if(rspI(L)){let e,t=/\b\w+$/[Ue]($)[0]
+e=0==ot[L]?#ms.ast.magnara_solver({[Ke]:t}):[dt[qe](t[k](""))[Je]("")]
+ot[L]++
+Tt[L]=e[rt[Re](rt[Ee]()*e[q])]}else{if(!rspI(Me)){if(rspI(re)){nt[fe]=!0
+nt[ne]=l
+break}nt[ne]=Fe+(zt+Pt)
+break}{let e=/(......)$/[Ue]($)[1]
+nt[We]=e
+let t=!0
+for(let l of wt)if(l[Y][o](e)){t=!1
+#ms.sys.manage({[Xe]:l.i})
+break}if(t){nt[ne]=Ae+e
+break}}}}nt[Ge]=Tt
+nt[He]=$
+nt[Qe]=ot
+nt[Ve]=Date[c]()-_ST
+nt[Ye]=Pt+zt
+nt[et]=Date[c]()
+nt[I]=kt
+nt[n]=t[n][A]
+nt[M]=t[M]
+nt[tt]=e[lt]
+nt[$t]=3
+return t[it]?nt:nt[fe]?void 0:$}
